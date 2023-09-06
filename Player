@@ -22,7 +22,86 @@ class Item {
 }
 
 class Player {
-    //Insert your code here.
+    private double money;
+    private List<Item> inventory;
+
+    public Player(double money) {
+        this.money = money;
+        this.inventory = new ArrayList<>();
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void addMoney(double amount) {
+        money += amount;
+    }
+
+    public boolean removeMoney(double amount) {
+        if (money >= amount) {
+            money -= amount;
+            return true;
+        }
+        return false;
+    }
+
+    public void addItem(Item item) {
+        inventory.add(item);
+    }
+
+    public boolean removeItem(Item item) {
+        if (inventory.contains(item)) {
+            inventory.remove(item);
+            return true;
+        }
+        return false;
+    }
+
+    public Item getItemByName(String name) {
+        for (Item item: inventory) {
+            if (item.getName().equalsIgnoreCase(name)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public boolean buyItem(Item item, Store store) {
+        if (removeMoney(item.getPrice())) {
+            store.sellItem(item, this);
+            addItem(item);
+            return true;
+        }
+        return false;
+    }
+
+    // Selling an item to the store
+    public boolean sellItem(Item item, Store store) {
+        if (removeItem(item)) {
+            addMoney(item.getPrice());
+            store.addItem(item);
+            return true;
+        }
+        return false;
+    }
+
+    // behaviors for Player class
+    public void wear(Item item) {
+        // Implement logic for wearing an item
+    }
+
+    public void hold(Item item) {
+        // Implement logic for holding an item
+    }
+
+    public void eat(Item item) {
+        // Implement logic for eating an item
+    }
+
+    public void drink(Item item) {
+        // Implement logic for drinking an item
+    }
 }                       
 
 class Store {
